@@ -24,7 +24,7 @@ $(OBJS_DIR)%.o:	%.c
 all :		$(NAME)
 
 $(NAME) :	$(OBJS) $(INCL)
-			echo "\033[0;35m Linking files\033[0m"
+			echo "\033[0;35mLinking files\033[0m"
 			$(CC) $(FLAGS) $(OBJS) -o $@
 			echo $(NAME) "\033[0;32mdone\033[0m"
 
@@ -42,7 +42,7 @@ re :		fclean all
 test:		all
 			echo
 			echo
-			./$(NAME) 10 100 1000 10
+			./$(NAME) 10 100 100 100
 
 
 

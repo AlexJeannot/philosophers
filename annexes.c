@@ -34,6 +34,14 @@ int ft_atoi(char *str, char *param, int *output)
     return (0);
 }
 
+unsigned long long get_time()
+{
+    struct timeval tv;
+
+    gettimeofday(&tv, NULL);
+    return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
+
 void display_settings()
 {
     printf("-------------\nphilo_nb = %u\n", settings.philo_nb);

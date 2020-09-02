@@ -17,6 +17,8 @@ int verify_args(int argc, char **params)
     else
         settings.eat_number = INT_MAX;
     pthread_mutex_init(&settings.msg_mutex, NULL);
+    settings.init_ts = get_time();
+    settings.dead_displayed = 0;
     return (0);
 }
 
@@ -36,7 +38,6 @@ int setup_philosophers(t_philosopher **philosophers)
         philosopher_array[count].eat_counter = 0;
         if (!(new_fork = (t_fork *)malloc(sizeof(t_fork))))
             return (ft_error("memory allocation problem"));
-        new_fork->is_use = 0;
         pthread_mutex_init(&new_fork->fork_mutex, NULL);
         philosopher_array[count].l_fork = new_fork;
         if (count > 0)
@@ -55,17 +56,15 @@ int main(int argc, char **argv)
     if (verify_args(argc, &argv[1]))
         return (1);
 
-    display_settings();
 
     if (setup_philosophers(&philosopher_array))
         return (1);
-
-    display_philosophers(philosopher_array);
 
 
     if (exec_philosophers(&philosopher_array))
         return (1);
 
     pthread_mutex_destroy(&settings.msg_mutex);
+
     return (0);
 }
