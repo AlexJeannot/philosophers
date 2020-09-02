@@ -2,6 +2,8 @@ NAME =	philo_one
 
 SRCS =	main.c		\
 		exec.c		\
+		error.c		\
+		display.c	\
 		annexes.c	
 
 OBJS =	$(addprefix $(OBJS_DIR), $(notdir $(SRCS:.c=.o)))
@@ -40,7 +42,7 @@ re :		fclean all
 test:		all
 			echo
 			echo
-			./$(NAME)
+			./$(NAME) 10 100 1000 10
 
 
 
