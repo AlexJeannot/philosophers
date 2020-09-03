@@ -2,19 +2,13 @@
 
 int main(int argc, char **argv)
 {
-    t_philosopher *philosopher_array;
+    t_philosopher *philosophers;
 
-    if (setup_settings(argc, &argv[1]))
+    if (setup_settings(argc, &argv[1])
+        || setup_philosophers(&philosophers)
+        || exec_threads(philosophers))
         return (1);
-    printf("AFTER SETUP SETTINGS\n");
-    if (setup_philosophers(&philosopher_array))
-        return (1);
-    printf("AFTER setup_philosophers\n");
-    //display_philosophers(philosopher_array, settings.philo_nb);
-
-    if (exec_threads(philosopher_array))
-        return (1);
-    pthread_mutex_destroy(&settings.msg_mutex);
-
+    destroy_mutex(philosophers);
+    free_philosophers(philosophers);
     return (0);
 }

@@ -10,7 +10,7 @@ int ft_error(char *str)
 
 int ft_atoi_error(char *str, char *param)
 {
-    ft_error(NULL);
+    ft_write(2, "Error: ", 0);
     ft_write(2, str, 0);
     ft_write(2, param, 0);
     ft_write(2, ")", 1);

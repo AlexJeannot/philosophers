@@ -6,6 +6,7 @@ SRCS =	main.c		\
 		eat.c		\
 		error.c		\
 		display.c	\
+		clean.c		\
 		annexes.c	
 
 OBJS =	$(addprefix $(OBJS_DIR), $(notdir $(SRCS:.c=.o)))
@@ -44,7 +45,7 @@ re :		fclean all
 test:		re
 			echo
 			echo
-			./$(NAME) 10 100 10 80
+			./$(NAME) 10 100 10 100
 
 
 

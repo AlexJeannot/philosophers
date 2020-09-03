@@ -57,7 +57,7 @@ void display_settings()
     printf("sleep_timer = %u\n", settings.sleep_timer);
     //printf("SSIZE_MAX = %zd\n", SSIZE_MAX);
 }
-*/
+
 void display_philosophers(t_philosopher *elem, int nb)
 {
     int count;
@@ -78,3 +78,4 @@ void display_philosophers(t_philosopher *elem, int nb)
     }
     printf("\n\n");
 }
+*/

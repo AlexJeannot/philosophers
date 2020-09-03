@@ -38,7 +38,6 @@ int create_philosopher(t_philosopher *philo, t_philosopher *prev_philo, int coun
     new_fork = NULL;
     philo->id = (count + 1);
     philo->meal_counter = 0;
-    philo->mutex_error = 0;
     if (create_fork(&new_fork))
         return (1);
     philo->l_fork = new_fork;
