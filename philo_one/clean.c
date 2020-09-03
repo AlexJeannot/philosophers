@@ -12,6 +12,7 @@ void destroy_mutex(t_philosopher *pilosophers)
     }
     if (settings.philo_nb == 1)
         pthread_mutex_destroy(&(pilosophers[0].r_fork->fork_mutex));
+    pthread_mutex_unlock(&settings.msg_mutex);
     pthread_mutex_destroy(&settings.msg_mutex);
     pthread_mutex_destroy(&settings.full_mutex);
 }

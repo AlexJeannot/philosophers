@@ -57,5 +57,6 @@ int exec_threads(t_philosopher *philosophers)
         usleep(10);
         count++;
     }
+    usleep(1000);
     return (monitor_threads(philosophers));
 }
