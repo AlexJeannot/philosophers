@@ -17,8 +17,10 @@ typedef struct s_settings
     int eat_timer;
     int sleep_timer;
     int eat_number;
+    int min_eat_counter;
     int dead_displayed;
     pthread_mutex_t msg_mutex;
+    pthread_mutex_t min_eat_mutex;
 } t_settings;
 
 typedef struct s_fork
@@ -47,7 +49,7 @@ int exec_philosophers(t_philosopher **philosophers);
 void display_action(int id, char *str, int end);
 int ft_atoi_error(char *str, char *param);
 unsigned long long get_time();
-
+int min_eat_reach();
 
 void display_settings();
 void display_philosophers(t_philosopher *elem);

@@ -42,7 +42,7 @@ re :		fclean all
 test:		all
 			echo
 			echo
-			./$(NAME) 10 100 100 100
+			./$(NAME) 3 100 100 100
 
 
 

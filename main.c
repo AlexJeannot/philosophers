@@ -15,10 +15,12 @@ int verify_args(int argc, char **params)
             return (1);  
     }
     else
-        settings.eat_number = INT_MAX;
+        settings.eat_number = -1;
     pthread_mutex_init(&settings.msg_mutex, NULL);
+    pthread_mutex_init(&settings.min_eat_mutex, NULL);
     settings.init_ts = get_time();
     settings.dead_displayed = 0;
+    settings.min_eat_counter = 0;
     return (0);
 }
 
@@ -59,7 +61,6 @@ int main(int argc, char **argv)
 
     if (setup_philosophers(&philosopher_array))
         return (1);
-
 
     if (exec_philosophers(&philosopher_array))
         return (1);
