@@ -42,6 +42,13 @@ unsigned long long get_time()
     return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
+int is_alive(t_philosopher *philo)
+{
+    if ((get_time() - philo->eat_ts) > (unsigned long long)settings.die_timer)
+        return (0);
+    return (1);
+}
+/*
 void display_settings()
 {
     printf("-------------\nphilo_nb = %u\n", settings.philo_nb);
@@ -50,18 +57,18 @@ void display_settings()
     printf("sleep_timer = %u\n", settings.sleep_timer);
     //printf("SSIZE_MAX = %zd\n", SSIZE_MAX);
 }
-
-void display_philosophers(t_philosopher *elem)
+*/
+void display_philosophers(t_philosopher *elem, int nb)
 {
     int count;
 
     count = 0;
     printf("\n\n");
-    while (count < settings.philo_nb)
+    while (count < nb)
     {
         printf("\n========= PHILO %d =========\n", count + 1);
         printf("elem->id = %d\n", elem->id);
-        printf("elem->eat_counter = %d\n", elem->eat_counter);
+        printf("elem->meal_nb = %d\n", elem->meal_counter);
         printf("elem->r_fork = %p\n", elem->r_fork);
         printf("elem->l_fork = %p\n", elem->l_fork);
         printf("elem = %p\n", &(*elem));

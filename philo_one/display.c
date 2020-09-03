@@ -18,16 +18,19 @@ void ft_putnbr_fd(unsigned long long fd, int nb)
     write(fd, &result, 1);
 }
 
-void display_action(int id, char *str, int end)
+int display_action(int id, char *str, int end)
 {
-    pthread_mutex_lock(&settings.msg_mutex);
+    if (pthread_mutex_lock(&settings.msg_mutex))
+        return (1);
     ft_putnbr_fd(1, (get_time() - settings.init_ts));
     ft_write(1, " ", 0);
     ft_putnbr_fd(1, id);
     ft_write(1, " ", 0);
     ft_write(1, str, 1);
-    if (!(end) && (!(min_eat_reach())))
-        pthread_mutex_unlock(&settings.msg_mutex);
-    else
-        settings.dead_displayed = 1;
+    if (!(end) && (!(reach_eat_minimun())))
+    {
+        if (pthread_mutex_unlock(&settings.msg_mutex))
+            return (1);
+    }
+    return (0);
 }

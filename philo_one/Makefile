@@ -1,7 +1,9 @@
 NAME =	philo_one
 
 SRCS =	main.c		\
+		setup.c		\
 		exec.c		\
+		eat.c		\
 		error.c		\
 		display.c	\
 		annexes.c	
@@ -39,10 +41,10 @@ fclean :	clean
 
 re :		fclean all
 
-test:		all
+test:		re
 			echo
 			echo
-			./$(NAME) 3 100 100 100
+			./$(NAME) 10 100 10 80
 
 
 
