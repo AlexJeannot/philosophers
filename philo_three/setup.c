@@ -14,11 +14,11 @@ void setup_settings(int argc, char **params)
         settings.meal_nb = -1;
     settings.init_ts = get_time();
     settings.full_nb = 0;
-    if ((settings.msg_sem = sem_open("/msg_sem30", O_CREAT | O_EXCL, 0644, 1)) == SEM_FAILED)
+    if ((settings.msg_sem = sem_open("/msg_sem", O_CREAT | O_EXCL, 0644, 1)) == SEM_FAILED)
         ft_error("message semaphore initilialization has failed");
-    if ((settings.full_sem = sem_open("/full_sem30", O_CREAT | O_EXCL, 0644, 1)) == SEM_FAILED)
+    if ((settings.full_sem = sem_open("/full_sem", O_CREAT | O_EXCL, 0644, 1)) == SEM_FAILED)
         ft_error("full counter semaphore initilialization has failed");
-    if ((settings.fork_sem = sem_open("/fork_sem30", O_CREAT | O_EXCL, 0644, settings.philo_nb)) == SEM_FAILED)
+    if ((settings.fork_sem = sem_open("/fork_sem", O_CREAT | O_EXCL, 0644, settings.philo_nb)) == SEM_FAILED)
         ft_error("fork semaphore initilialization has failed");
 }
 

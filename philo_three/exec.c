@@ -2,11 +2,25 @@
 
 void philo_sleep(t_philosopher *philo)
 {
-    display_action(philo, philo->id, "\033[38;5;38mis sleeping\033[0m", 0);
+    display_action(philo->id, "\033[38;5;38mis sleeping\033[0m", 0);
     wait_loop(settings.sleep_timer);
 }
 
-void *manage_thread(void *input)
+void *monitor_process(void *input)
+{
+    t_philosopher *philo;
+
+    philo = (t_philosopher *)input;
+    while (1)
+    {
+        if (!(is_alive(philo)))
+            return ((void *)2);
+        if (philo->is_full)
+            return ((void *)0);
+    }
+}
+
+void *exec_process(void *input)
 {
     t_philosopher *philo;
 
@@ -16,51 +30,77 @@ void *manage_thread(void *input)
     {
         philo_eat(philo);
         philo_sleep(philo);
-        display_action(philo, philo->id, "\033[38;5;208mis thinking\033[0m", 0);
+        display_action(philo->id, "\033[38;5;208mis thinking\033[0m", 0);
     }
     return ((void *)0);
 }
 
-int monitor_threads(t_philosopher *philosophers)
+int manage_process(t_philosopher *philo)
 {
-    int count;
-    
-    while (1)
-    {
-        count = 0;
-        while (count < settings.philo_nb)
-        {
-            if (!(is_alive(&philosophers[count])))
-            {
-                display_action(&philosophers[count], philosophers[count].id, "\033[38;5;160mdied\033[0m", 1);
-                return (0);
-            }
-            count++;
-        }
-        if (reach_eat_minimun())
-            return (0);
-    }
+    pthread_t manager_thread;
+    pthread_t exec_thread;
+    void *ret;
+
+    if (pthread_create(&(exec_thread), NULL, exec_process, (void *)philo))
+        ft_error("thread creation has failed");
+    if (pthread_detach(exec_thread))
+        ft_error("thread detachment has failed");
+    usleep(100);
+    if (pthread_create(&(manager_thread), NULL, monitor_process, (void *)philo))
+        ft_error("thread creation has failed");
+    if (pthread_join(manager_thread, &ret))
+        ft_error("thread detachment has failed");
+    exit((int)ret);
 }
 
-void create_threads(pthread_t (*threads)[settings.philo_nb], t_philosopher *philosophers, int count)
+int monitor_processes(void)
 {
+    int status;
+    int ret;
+    
+    while (waitpid(-1, &status, 0) > -1)
+    {
+        if (WIFEXITED(status))
+            ret = WEXITSTATUS(status);
+        printf("RET = %d\n", ret);
+        if (ret == 2)
+        {
+            printf("PHILO IS DEAD\n");
+            kill (0, SIGTERM);
+        }
+    }
+    return (0);
+}
+
+void create_processes(void)
+{
+    t_philosopher philo;
+    pid_t pid_array[settings.philo_nb];
+    pid_t pid;
+    int count;
+
+    count = 0;
+    philo.eat_ts = 0;
+    philo.meal_counter = 0;
+    philo.is_full = 0;
     while (count < settings.philo_nb)
     {
-        if (pthread_create(&((*threads)[count]), NULL, manage_thread, (void *)(&philosophers[count])))
-            ft_error("thread creation has failed");
-        if (pthread_detach((*threads)[count]))
-            ft_error("thread attachment has failed");
-        usleep(10);
-        count += 2;
+        philo.id = (count + 1);
+        if ((pid = fork()) < 0)
+            ft_error("process fork has failed");
+        if (pid == 0)
+            manage_process(&philo);
+        else
+        {
+            pid_array[count] = pid;
+            count++;
+        }
     }
+    usleep(100);
 }
 
-void exec_threads(t_philosopher *philosophers)
+void exec_processes(void)
 {
-    pthread_t threads[settings.philo_nb];
-
-    create_threads(&threads, philosophers, 0);
-    create_threads(&threads, philosophers, 1);
-    usleep(100);
-    monitor_threads(philosophers);
+    create_processes();
+    monitor_processes();
 }

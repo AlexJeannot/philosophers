@@ -1,5 +1,5 @@
-#ifndef PHILO_ONE_H
-# define PHILO_ONE_H
+#ifndef PHILO_THREE_H
+# define PHILO_THREE_H
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -8,8 +8,9 @@
 # include <sys/time.h>
 # include <sys/types.h>
 # include <limits.h>
-#include <semaphore.h>
-#include <fcntl.h>
+# include <semaphore.h>
+# include <fcntl.h>
+# include <signal.h>
 
 /*
 *** STRUCTURES
@@ -69,7 +70,7 @@ void free_philosophers(t_philosopher *pilosophers);
 */
 
 void ft_write(int fd, char *str, int nl);
-int display_action(t_philosopher *philo, int id, char *str, int end);
+int display_action(int id, char *str, int end);
 
 
 /*
@@ -93,7 +94,7 @@ void ft_atoi_error(char *str, char *param);
 *** EXEC.C
 */
 
-void exec_threads(t_philosopher *philosophers);
+void exec_processes(void);
 
 
 /*

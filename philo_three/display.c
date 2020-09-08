@@ -18,7 +18,7 @@ void ft_putnbr_fd(unsigned long long fd, int nb)
     write(fd, &result, 1);
 }
 
-int display_action(t_philosopher *philo, int id, char *str, int end)
+int display_action(int id, char *str, int end)
 {
     sem_wait(settings.msg_sem);
     write(1, "\033[38;5;228m", 12);
@@ -28,9 +28,7 @@ int display_action(t_philosopher *philo, int id, char *str, int end)
     ft_putnbr_fd(1, id);
     ft_write(1, " ", 0);
     ft_write(1, str, 1);
-    if (settings.meal_nb > 0 && !(philo->is_full) && philo->meal_counter == settings.meal_nb)
-        increment_meal_nb(philo);
-    if (!(end) && (!(reach_eat_minimun())))
+    if (!(end))
         sem_post(settings.msg_sem);
     return (0);
 }
