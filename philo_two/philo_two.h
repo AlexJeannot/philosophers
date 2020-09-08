@@ -8,6 +8,8 @@
 # include <sys/time.h>
 # include <sys/types.h>
 # include <limits.h>
+#include <semaphore.h>
+#include <fcntl.h>
 
 /*
 *** STRUCTURES
@@ -15,8 +17,9 @@
 
 typedef struct s_settings
 {
-    pthread_mutex_t msg_mutex;
-    pthread_mutex_t full_mutex;
+    sem_t *msg_sem;
+    sem_t *full_sem;
+    sem_t *fork_sem;
     unsigned long long init_ts;
     int philo_nb;
     int die_timer;
@@ -26,15 +29,8 @@ typedef struct s_settings
     int full_nb;
 } t_settings;
 
-typedef struct s_fork
-{
-    pthread_mutex_t fork_mutex;
-} t_fork;
-
 typedef struct s_philosopher 
 {
-    t_fork *r_fork;
-    t_fork *l_fork;
     unsigned long long eat_ts;
     int id;
     int meal_counter;
@@ -63,7 +59,7 @@ int is_alive(t_philosopher *philo);
 *** CLEAN.C
 */
 
-void destroy_mutex(t_philosopher *pilosophers);
+void close_sem(sem_t *semaphore, char *str);
 void free_philosophers(t_philosopher *pilosophers);
 
 

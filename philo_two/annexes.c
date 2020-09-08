@@ -1,4 +1,4 @@
-#include "philo_one.h"
+#include "philo_two.h"
 
 int ft_strlen(const char *str)
 {
@@ -34,7 +34,7 @@ int ft_atoi(char *str, char *param, int *output)
     return (0);
 }
 
-unsigned long long get_time(void)
+unsigned long long get_time()
 {
     struct timeval tv;
 
@@ -53,7 +53,7 @@ void wait_loop(int msec)
 
 int is_alive(t_philosopher *philo)
 {
-    if ((get_time() - philo->eat_ts) > ((unsigned long long)settings.die_timer))
+    if ((get_time() - philo->eat_ts) > (unsigned long long)settings.die_timer)
         return (0);
     return (1);
 }

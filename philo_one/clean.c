@@ -22,12 +22,15 @@ void free_philosophers(t_philosopher *pilosophers)
     int count;
 
     count = 0;
-    while (count < settings.philo_nb)
+    if (pilosophers)
     {
-        free(pilosophers[count].l_fork);
-        count++;
+        while (count < settings.philo_nb)
+        {
+            free(pilosophers[count].l_fork);
+            count++;
+        }
+        if (settings.philo_nb == 1)
+            free(pilosophers[count].r_fork);
+        free(pilosophers);
     }
-    if (settings.philo_nb == 1)
-        free(pilosophers[count].r_fork);
-    free(pilosophers);
 }
