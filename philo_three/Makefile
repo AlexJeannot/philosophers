@@ -1,4 +1,4 @@
-NAME =	philo_two
+NAME =	philo_three
 
 SRCS =	main.c		\
 		setup.c		\
@@ -12,7 +12,7 @@ SRCS =	main.c		\
 OBJS =	$(addprefix $(OBJS_DIR), $(notdir $(SRCS:.c=.o)))
 OBJS_DIR = objs/
 
-INCL =	philo_two.h
+INCL =	philo_three.h
 
 CC =	gcc
 FLAGS =	-Wall -Wextra -Werror
@@ -45,7 +45,7 @@ re :		fclean all
 test:		re
 			echo
 			echo
-			./$(NAME) 5 800 200 200
+			./$(NAME) 5 200 10 10 3
 
 
 

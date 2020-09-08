@@ -1,4 +1,4 @@
-#include "philo_two.h"
+#include "philo_three.h"
 
 void philo_sleep(t_philosopher *philo)
 {
@@ -42,26 +42,25 @@ int monitor_threads(t_philosopher *philosophers)
     }
 }
 
-int create_threads(pthread_t (*threads)[settings.philo_nb], t_philosopher *philosophers, int count)
+void create_threads(pthread_t (*threads)[settings.philo_nb], t_philosopher *philosophers, int count)
 {
     while (count < settings.philo_nb)
     {
         if (pthread_create(&((*threads)[count]), NULL, manage_thread, (void *)(&philosophers[count])))
-            return (ft_error("thread creation has failed"));
+            ft_error("thread creation has failed");
         if (pthread_detach((*threads)[count]))
-            return (ft_error("thread detachment has failed"));
+            ft_error("thread attachment has failed");
         usleep(10);
         count += 2;
     }
-    return (0);
 }
 
-int exec_threads(t_philosopher *philosophers)
+void exec_threads(t_philosopher *philosophers)
 {
     pthread_t threads[settings.philo_nb];
 
-    if (create_threads(&threads, philosophers, 0) || create_threads(&threads, philosophers, 1))
-        return (1);
+    create_threads(&threads, philosophers, 0);
+    create_threads(&threads, philosophers, 1);
     usleep(100);
-    return (monitor_threads(philosophers));
+    monitor_threads(philosophers);
 }

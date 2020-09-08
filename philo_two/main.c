@@ -8,9 +8,9 @@ int main(int argc, char **argv)
         || setup_philosophers(&philosophers)
         || exec_threads(philosophers))
         return (1);
-    close_sem(settings.msg_sem, "/msg_sem");
-    close_sem(settings.full_sem, "/full_sem");
-    close_sem(settings.fork_sem, "/fork_sem");
+    sem_unlink("/full_sem");
+    sem_unlink("/fork_sem");
+    sem_unlink("/msg_sem");
     free_philosophers(philosophers);
     return (0);
 }

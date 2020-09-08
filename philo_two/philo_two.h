@@ -34,6 +34,7 @@ typedef struct s_philosopher
     unsigned long long eat_ts;
     int id;
     int meal_counter;
+    int is_full;
 } t_philosopher;
 
 
@@ -68,7 +69,7 @@ void free_philosophers(t_philosopher *pilosophers);
 */
 
 void ft_write(int fd, char *str, int nl);
-int display_action(int id, char *str, int end);
+int display_action(t_philosopher *philo, int id, char *str, int end);
 
 
 /*
@@ -77,7 +78,7 @@ int display_action(int id, char *str, int end);
 
 int reach_eat_minimun(void);
 int philo_eat(t_philosopher *philo);
-
+void increment_meal_nb(t_philosopher *philo);
 
 /*
 *** ERROR.C

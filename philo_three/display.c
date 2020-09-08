@@ -1,4 +1,4 @@
-#include "philo_two.h"
+#include "philo_three.h"
 
 void ft_write(int fd, char *str, int nl)
 {
@@ -31,6 +31,6 @@ int display_action(t_philosopher *philo, int id, char *str, int end)
     if (settings.meal_nb > 0 && !(philo->is_full) && philo->meal_counter == settings.meal_nb)
         increment_meal_nb(philo);
     if (!(end) && (!(reach_eat_minimun())))
-        sem_post(settings.msg_sem);   
+        sem_post(settings.msg_sem);
     return (0);
 }

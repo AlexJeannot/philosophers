@@ -2,7 +2,7 @@
 
 void philo_sleep(t_philosopher *philo)
 {
-    display_action(philo->id, "\033[38;5;38mis sleeping\033[0m", 0);
+    display_action(philo, philo->id, "\033[38;5;38mis sleeping\033[0m", 0);
     wait_loop(settings.sleep_timer);
 }
 
@@ -16,7 +16,7 @@ void *manage_thread(void *input)
     {
         philo_eat(philo);
         philo_sleep(philo);
-        display_action(philo->id, "\033[38;5;208mis thinking\033[0m", 0);
+        display_action(philo, philo->id, "\033[38;5;208mis thinking\033[0m", 0);
     }
     return ((void *)0);
 }
@@ -32,7 +32,7 @@ int monitor_threads(t_philosopher *philosophers)
         {
             if (!(is_alive(&philosophers[count])))
             {
-                display_action(philosophers[count].id, "\033[38;5;160mdied\033[0m", 1);
+                display_action(&philosophers[count], philosophers[count].id, "\033[38;5;160mdied\033[0m", 1);
                 return (0);
             }
             count++;
@@ -62,5 +62,6 @@ int exec_threads(t_philosopher *philosophers)
 
     if (create_threads(&threads, philosophers, 0) || create_threads(&threads, philosophers, 1))
         return (1);
+    usleep(100);
     return (monitor_threads(philosophers));
 }

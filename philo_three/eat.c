@@ -1,4 +1,4 @@
-#include "philo_two.h"
+#include "philo_three.h"
 
 int reach_eat_minimun(void)
 {
@@ -16,7 +16,7 @@ void increment_meal_nb(t_philosopher *philo)
     sem_wait(settings.full_sem);
     settings.full_nb++;
     sem_post(settings.full_sem);
-    philo->is_full = 1; 
+    philo->is_full = 1;
 }
 
 int philo_eat(t_philosopher *philo)

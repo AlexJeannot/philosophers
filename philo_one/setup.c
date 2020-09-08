@@ -38,6 +38,7 @@ int create_philosopher(t_philosopher *philo, t_philosopher *prev_philo, int coun
     new_fork = NULL;
     philo->id = (count + 1);
     philo->meal_counter = 0;
+    philo->is_full = 0;
     if (create_fork(&new_fork))
         return (1);
     philo->l_fork = new_fork;
@@ -55,7 +56,7 @@ int setup_last_fork(t_philosopher *first_philo, t_philosopher *last_philo)
     {
         if (create_fork(&new_fork))
             return (1);
-        first_philo->l_fork = new_fork;
+        first_philo->r_fork = new_fork;
     }
     else if (settings.philo_nb > 1)
         first_philo->r_fork = last_philo->l_fork;

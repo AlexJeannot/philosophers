@@ -45,7 +45,7 @@ re :		fclean all
 test:		re
 			echo
 			echo
-			./$(NAME) 4 410 200 200
+			./$(NAME) 1 410 200 200 10
 
 
 
