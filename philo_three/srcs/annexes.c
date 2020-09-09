@@ -1,4 +1,4 @@
-#include "philo_one.h"
+#include "../includes/philo_three.h"
 
 int ft_strlen(const char *str)
 {
@@ -23,18 +23,18 @@ int ft_atoi(char *str, char *param, int *output)
     while (str[count])
     {
         if (str[count] < 48 || str[count] > 57)
-            return (ft_atoi_error("wrong symbol in parameter (", param));
+            ft_atoi_error("wrong symbol in parameter (", param);
         else
             result = (result * 10) + (str[count] - 48);
         count++;
     }
     if (result > INT_MAX || result < 0)
-        return (ft_atoi_error("wrong value in parameter (", param));
+        ft_atoi_error("wrong value in parameter (", param);
     *output = (int)result;
     return (0);
 }
 
-unsigned long long get_time(void)
+unsigned long long get_time()
 {
     struct timeval tv;
 
@@ -53,7 +53,7 @@ void wait_loop(int msec)
 
 int is_alive(t_philosopher *philo)
 {
-    if ((get_time() - philo->eat_ts) > ((unsigned long long)settings.die_timer))
+    if ((get_time() - philo->eat_ts) > (unsigned long long)settings.die_timer)
         return (0);
     return (1);
 }

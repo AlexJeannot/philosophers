@@ -1,4 +1,4 @@
-#include "philo_three.h"
+#include "../includes/philo_three.h"
 
 void ft_error(char *str)
 {

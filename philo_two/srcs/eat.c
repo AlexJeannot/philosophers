@@ -1,4 +1,4 @@
-#include "philo_two.h"
+#include "../includes/philo_two.h"
 
 int reach_eat_minimun(void)
 {

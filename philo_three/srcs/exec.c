@@ -1,4 +1,4 @@
-#include "philo_three.h"
+#include "../includes/philo_three.h"
 
 void philo_sleep(t_philosopher *philo)
 {
@@ -6,7 +6,7 @@ void philo_sleep(t_philosopher *philo)
     wait_loop(settings.sleep_timer);
 }
 
-void *monitor_process(void *input)
+void *monitor_thread(void *input)
 {
     t_philosopher *philo;
 
@@ -14,13 +14,16 @@ void *monitor_process(void *input)
     while (1)
     {
         if (!(is_alive(philo)))
+        {
+            display_action(philo->id, "\033[38;5;160mdied\033[0m", 1);
             return ((void *)2);
+        }
         if (philo->is_full)
             return ((void *)0);
     }
 }
 
-void *exec_process(void *input)
+void *exec_thread(void *input)
 {
     t_philosopher *philo;
 
@@ -35,47 +38,50 @@ void *exec_process(void *input)
     return ((void *)0);
 }
 
-int manage_process(t_philosopher *philo)
+int exec_process(t_philosopher *philo)
 {
     pthread_t manager_thread;
-    pthread_t exec_thread;
+    pthread_t executer_thread;
     void *ret;
 
-    if (pthread_create(&(exec_thread), NULL, exec_process, (void *)philo))
+    if (pthread_create(&(executer_thread), NULL, exec_thread, (void *)philo))
         ft_error("thread creation has failed");
-    if (pthread_detach(exec_thread))
+    if (pthread_detach(executer_thread))
         ft_error("thread detachment has failed");
-    usleep(100);
-    if (pthread_create(&(manager_thread), NULL, monitor_process, (void *)philo))
+    usleep(10);
+    if (pthread_create(&(manager_thread), NULL, monitor_thread, (void *)philo))
         ft_error("thread creation has failed");
     if (pthread_join(manager_thread, &ret))
         ft_error("thread detachment has failed");
     exit((int)ret);
 }
 
-int monitor_processes(void)
+int monitor_processes(pid_t pid_array[settings.philo_nb])
 {
     int status;
     int ret;
+    int count;
     
+    count = 0;
     while (waitpid(-1, &status, 0) > -1)
     {
         if (WIFEXITED(status))
             ret = WEXITSTATUS(status);
-        printf("RET = %d\n", ret);
-        if (ret == 2)
+        if (ret > 0)
         {
-            printf("PHILO IS DEAD\n");
-            kill (0, SIGTERM);
+            while (count < settings.philo_nb)
+            {
+                kill(pid_array[count], SIGTERM);
+                count++;
+            }
         }
     }
-    return (0);
+    return ((ret == 1) ? 1 : 0);
 }
 
-void create_processes(void)
+void create_processes(pid_t (*pid_array)[settings.philo_nb])
 {
     t_philosopher philo;
-    pid_t pid_array[settings.philo_nb];
     pid_t pid;
     int count;
 
@@ -89,18 +95,19 @@ void create_processes(void)
         if ((pid = fork()) < 0)
             ft_error("process fork has failed");
         if (pid == 0)
-            manage_process(&philo);
+            exec_process(&philo);
         else
         {
-            pid_array[count] = pid;
+            (*pid_array)[count] = pid;
             count++;
         }
     }
-    usleep(100);
 }
 
-void exec_processes(void)
+int manage_processes(void)
 {
-    create_processes();
-    monitor_processes();
+    pid_t pid_array[settings.philo_nb];
+
+    create_processes(&pid_array);
+    return (monitor_processes(pid_array));
 }

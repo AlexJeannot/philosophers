@@ -1,4 +1,4 @@
-#include "philo_two.h"
+#include "../includes/philo_two.h"
 
 int setup_settings(int argc, char **params)
 {
@@ -18,6 +18,9 @@ int setup_settings(int argc, char **params)
         settings.meal_nb = -1;
     settings.init_ts = get_time();
     settings.full_nb = 0;
+    sem_unlink("/msg_sem");
+    sem_unlink("/full_sem");
+    sem_unlink("/fork_sem");
     if ((settings.msg_sem = sem_open("/msg_sem", O_CREAT | O_EXCL, 0644, 1)) == SEM_FAILED)
         return (ft_error("message semaphore initilialization has failed"));
     if ((settings.full_sem = sem_open("/full_sem", O_CREAT | O_EXCL, 0644, 1)) == SEM_FAILED)

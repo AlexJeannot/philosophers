@@ -1,4 +1,4 @@
-#include "philo_one.h"
+#include "../includes/philo_two.h"
 
 int ft_error(char *str)
 {

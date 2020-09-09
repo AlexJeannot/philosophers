@@ -1,4 +1,4 @@
-#include "philo_one.h"
+#include "../includes/philo_one.h"
 
 void destroy_mutex(t_philosopher *pilosophers)
 {

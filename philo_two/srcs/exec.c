@@ -1,4 +1,4 @@
-#include "philo_two.h"
+#include "../includes/philo_two.h"
 
 void philo_sleep(t_philosopher *philo)
 {

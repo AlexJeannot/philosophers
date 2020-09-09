@@ -1,28 +1,26 @@
 NAME =	philo_one
 
-SRCS =	main.c		\
-		setup.c		\
-		exec.c		\
-		eat.c		\
-		error.c		\
-		display.c	\
-		clean.c		\
-		annexes.c	
+SRCS =	srcs/main.c		\
+		srcs/setup.c	\
+		srcs/exec.c		\
+		srcs/eat.c		\
+		srcs/error.c	\
+		srcs/display.c	\
+		srcs/clean.c	\
+		srcs/annexes.c	
 
 OBJS =	$(addprefix $(OBJS_DIR), $(notdir $(SRCS:.c=.o)))
 OBJS_DIR = objs/
 
-INCL =	philo_one.h
+INCL =	includes/philo_one.h
 
 CC =	gcc
 FLAGS =	-Wall -Wextra -Werror
 
-$(OBJS_DIR)%.o:	%.c
+$(OBJS_DIR)%.o:	*/%.c
 						if [ -d "objs" ]; then : ; else mkdir objs; fi
 						$(CC) $(FLAGS) -c $< -o $@
 						echo $(notdir $@) "\033[0;32mcreated\033[0m"
-
-
 
 all :		$(NAME)
 
@@ -42,12 +40,5 @@ fclean :	clean
 
 re :		fclean all
 
-test:		re
-			echo
-			echo
-			./$(NAME) 1 410 200 200 10
-
-
-
-.PHONY :	all clean fclean re test
+.PHONY :	all clean fclean re
 .SILENT: 

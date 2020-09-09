@@ -1,5 +1,5 @@
-#ifndef PHILO_THREE_H
-# define PHILO_THREE_H
+#ifndef PHILO_TWO_H
+# define PHILO_TWO_H
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -10,7 +10,6 @@
 # include <limits.h>
 # include <semaphore.h>
 # include <fcntl.h>
-# include <signal.h>
 
 /*
 *** STRUCTURES
@@ -61,7 +60,7 @@ int is_alive(t_philosopher *philo);
 *** CLEAN.C
 */
 
-void close_sem(sem_t *semaphore, char *str);
+void clean_sem(char *str);
 void free_philosophers(t_philosopher *pilosophers);
 
 
@@ -70,7 +69,7 @@ void free_philosophers(t_philosopher *pilosophers);
 */
 
 void ft_write(int fd, char *str, int nl);
-int display_action(int id, char *str, int end);
+int display_action(t_philosopher *philo, int id, char *str, int end);
 
 
 /*
@@ -81,28 +80,27 @@ int reach_eat_minimun(void);
 int philo_eat(t_philosopher *philo);
 void increment_meal_nb(t_philosopher *philo);
 
-
 /*
 *** ERROR.C
 */
 
-void ft_error(char *str);
-void ft_atoi_error(char *str, char *param);
+int ft_error(char *str);
+int ft_atoi_error(char *str, char *param);
 
 
 /*
 *** EXEC.C
 */
 
-void exec_processes(void);
+int exec_threads(t_philosopher *philosophers);
 
 
 /*
 *** SETUP.C
 */
 
-void setup_settings(int argc, char **params);
-void setup_philosophers(t_philosopher **philosophers);
+int setup_settings(int argc, char **params);
+int setup_philosophers(t_philosopher **philosophers);
 
 
 #endif

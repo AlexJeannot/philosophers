@@ -1,4 +1,4 @@
-#include "philo_two.h"
+#include "../includes/philo_one.h"
 
 int main(int argc, char **argv)
 {
@@ -8,9 +8,7 @@ int main(int argc, char **argv)
         || setup_philosophers(&philosophers)
         || exec_threads(philosophers))
         return (1);
-    sem_unlink("/full_sem");
-    sem_unlink("/fork_sem");
-    sem_unlink("/msg_sem");
+    destroy_mutex(philosophers);
     free_philosophers(philosophers);
     return (0);
 }

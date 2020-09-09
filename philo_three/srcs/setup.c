@@ -1,4 +1,4 @@
-#include "philo_three.h"
+#include "../includes/philo_three.h"
 
 void setup_settings(int argc, char **params)
 {
@@ -14,33 +14,10 @@ void setup_settings(int argc, char **params)
         settings.meal_nb = -1;
     settings.init_ts = get_time();
     settings.full_nb = 0;
+    sem_unlink("/msg_sem");
+    sem_unlink("/fork_sem");
     if ((settings.msg_sem = sem_open("/msg_sem", O_CREAT | O_EXCL, 0644, 1)) == SEM_FAILED)
         ft_error("message semaphore initilialization has failed");
-    if ((settings.full_sem = sem_open("/full_sem", O_CREAT | O_EXCL, 0644, 1)) == SEM_FAILED)
-        ft_error("full counter semaphore initilialization has failed");
     if ((settings.fork_sem = sem_open("/fork_sem", O_CREAT | O_EXCL, 0644, settings.philo_nb)) == SEM_FAILED)
         ft_error("fork semaphore initilialization has failed");
-}
-
-void create_philosopher(t_philosopher *philo, int count)
-{
-    philo->id = (count + 1);
-    philo->meal_counter = 0;
-    philo->is_full = 0;
-}
-
-void setup_philosophers(t_philosopher **philosophers)
-{
-    t_philosopher *philosopher_array;
-    int count;
-
-    count = 0;
-    if (!(philosopher_array = (t_philosopher *)malloc(sizeof(t_philosopher) * settings.philo_nb)))
-        ft_error("memory allocation problem");
-    while (count < settings.philo_nb)
-    {
-        create_philosopher(&philosopher_array[count], count);
-        count++;
-    }
-    *philosophers = philosopher_array;
 }

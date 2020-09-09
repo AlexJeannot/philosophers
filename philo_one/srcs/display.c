@@ -1,4 +1,4 @@
-#include "philo_one.h"
+#include "../includes/philo_one.h"
 
 void ft_write(int fd, char *str, int nl)
 {
