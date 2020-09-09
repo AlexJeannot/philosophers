@@ -60,7 +60,7 @@ int is_alive(t_philosopher *philo);
 *** CLEAN.C
 */
 
-void clean_sem(char *str);
+void clean_sem(void);
 void free_philosophers(t_philosopher *pilosophers);
 
 

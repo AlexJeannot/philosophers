@@ -28,7 +28,7 @@ int ft_atoi(char *str, char *param, int *output)
             result = (result * 10) + (str[count] - 48);
         count++;
     }
-    if (result > INT_MAX || result < 0)
+    if (result > INT_MAX || result <= 0)
         ft_atoi_error("wrong value in parameter (", param);
     *output = (int)result;
     return (0);
@@ -53,7 +53,12 @@ void wait_loop(int msec)
 
 int is_alive(t_philosopher *philo)
 {
+    sem_wait(settings.timer_sem);
     if ((get_time() - philo->eat_ts) > (unsigned long long)settings.die_timer)
+    {
+        sem_post(settings.timer_sem);
         return (0);
+    }
+    sem_post(settings.timer_sem);
     return (1);
 }

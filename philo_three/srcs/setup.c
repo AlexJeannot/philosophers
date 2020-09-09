@@ -16,8 +16,11 @@ void setup_settings(int argc, char **params)
     settings.full_nb = 0;
     sem_unlink("/msg_sem");
     sem_unlink("/fork_sem");
+    sem_unlink("/timer_sem");
     if ((settings.msg_sem = sem_open("/msg_sem", O_CREAT | O_EXCL, 0644, 1)) == SEM_FAILED)
         ft_error("message semaphore initilialization has failed");
-    if ((settings.fork_sem = sem_open("/fork_sem", O_CREAT | O_EXCL, 0644, settings.philo_nb)) == SEM_FAILED)
+    if ((settings.fork_sem = sem_open("/fork_sem", O_CREAT | O_EXCL, 0644, (settings.philo_nb == 1) ? 2 : settings.philo_nb)) == SEM_FAILED)
         ft_error("fork semaphore initilialization has failed");
+    if ((settings.timer_sem = sem_open("/timer_sem", O_CREAT | O_EXCL, 0644, 1)) == SEM_FAILED)
+        ft_error("message semaphore initilialization has failed");
 }

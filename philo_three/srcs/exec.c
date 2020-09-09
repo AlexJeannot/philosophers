@@ -48,7 +48,7 @@ int exec_process(t_philosopher *philo)
         ft_error("thread creation has failed");
     if (pthread_detach(executer_thread))
         ft_error("thread detachment has failed");
-    usleep(10);
+    usleep(100);
     if (pthread_create(&(manager_thread), NULL, monitor_thread, (void *)philo))
         ft_error("thread creation has failed");
     if (pthread_join(manager_thread, &ret))

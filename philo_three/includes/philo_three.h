@@ -20,6 +20,7 @@ typedef struct s_settings
 {
     sem_t *msg_sem;
     sem_t *fork_sem;
+    sem_t *timer_sem;
     unsigned long long init_ts;
     int philo_nb;
     int die_timer;
@@ -60,7 +61,7 @@ int is_alive(t_philosopher *philo);
 *** CLEAN.C
 */
 
-void clean_sem(sem_t *semaphore, char *str);
+void clean_sem();
 void free_philosophers(t_philosopher *pilosophers);
 
 
@@ -69,7 +70,7 @@ void free_philosophers(t_philosopher *pilosophers);
 */
 
 void ft_write(int fd, char *str, int nl);
-int display_action(int id, char *str, int end);
+void display_action(int id, char *str, int end);
 
 
 /*

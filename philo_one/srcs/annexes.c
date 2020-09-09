@@ -28,7 +28,7 @@ int ft_atoi(char *str, char *param, int *output)
             result = (result * 10) + (str[count] - 48);
         count++;
     }
-    if (result > INT_MAX || result < 0)
+    if (result > INT_MAX || result <= 0)
         return (ft_atoi_error("wrong value in parameter (", param));
     *output = (int)result;
     return (0);

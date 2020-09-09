@@ -16,7 +16,9 @@ int philo_eat(t_philosopher *philo)
 {
     reserve_fork(philo);
     reserve_fork(philo);
+    sem_wait(settings.timer_sem);
     philo->eat_ts = get_time();
+    sem_post(settings.timer_sem);
     display_action(philo->id, "\033[38;5;40mis eating\033[0m", 0);
     wait_loop(settings.eat_timer);
     sem_post(settings.fork_sem);
